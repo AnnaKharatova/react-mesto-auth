@@ -2,31 +2,31 @@ import { useState, useEffect } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import EditProfilePopup from './EditProfilePopup'
-import AddPlacePopup from './AddPlacePopup'
-import EditAvatarPopup from './EditAvatarPopup'
-import ConfirmationPopup from './ConfirmationPopup'
-import ImagePopup from './ImagePopup'
-import api from '../utils/api.js'
-import { CurrentUserContext } from '../contexts/CurrentUserContext'
-import { Route, Routes, Navigate, useNavigate } from 'react-router-dom'
+import EditProfilePopup from './EditProfilePopup';
+import AddPlacePopup from './AddPlacePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import ConfirmationPopup from './ConfirmationPopup';
+import ImagePopup from './ImagePopup';
+import api from '../utils/api.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import ProtectedRouteElement from "./ProtectedRoute";
 import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
-import { checkToken, register, authorize } from '../utils/auth'
+import { checkToken, register, authorize } from '../utils/auth';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [cards, setCards] = useState([])
-  const [selectedCard, showSelectedCard] = useState(null)
-  const [currentUser, setCurrentUser] = useState({})
+  const [cards, setCards] = useState([]);
+  const [selectedCard, showSelectedCard] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [infoTooltip, setInfoTooltip] = useState(false);
-  const [authEmail, setAuthEmail] = useState(null)
-  const [regStatus, setRegStatus] = useState(false)
+  const [authEmail, setAuthEmail] = useState(null);
+  const [regStatus, setRegStatus] = useState(false);
   const navigate = useNavigate();
 
   function onLogin(email, password) {
@@ -38,13 +38,11 @@ function App() {
         navigate("/");
       })
       .catch((err) => {
-        console.log('BOO!')
         console.log(err)
         handleInfoTooltipOpen()
         setRegStatus(false)
       });
   };
-
 
   function handleLogOut() {
     localStorage.removeItem('jwt');
@@ -65,7 +63,7 @@ function App() {
         setRegStatus(false)
         console.log(err)
       })
-  }
+  };
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
@@ -174,7 +172,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    showSelectedCard(null)
+    showSelectedCard(null);
     setInfoTooltip(false)
   }
 
@@ -214,9 +212,12 @@ function App() {
                   <Header
                     title='Войти'
                     route='/sign-in'
+
                   />
                   <Register
                     onRegister={onSignOut}
+                    title='Регистрация'
+                    button='Зарегистрироваться'
                   />
                 </>
               }
@@ -227,9 +228,11 @@ function App() {
                   <Header
                     title='Регистрация'
                     route='/sign-up'
-                  />
+                    />
                   <Login
-                    onLogin={onLogin}
+                    onRegister={onLogin}
+                    title='Вход'
+                    button='Войти'
                   />
                 </>
               }
@@ -243,8 +246,7 @@ function App() {
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-          />
+            onUpdateAvatar={handleUpdateAvatar} />
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
@@ -260,11 +262,11 @@ function App() {
           <InfoTooltip
             regStatus={regStatus}
             isOpen={infoTooltip}
-            onClose={closeAllPopups}
-          />
+            onClose={closeAllPopups} />
         </div>
       </div>
     </CurrentUserContext.Provider>
   )
 }
+
 export default App;

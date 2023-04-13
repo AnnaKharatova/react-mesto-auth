@@ -14,7 +14,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
     return (
         <article className="element" key={card._id}>
             {isOwn && <button className="element__delete-button" onClick={handleDeleteClick} />}
-            <img onClick={handleClick} className="element__image" src={card.link} alt={`Пейзаж ${card.name}`} />
+            <img onClick={handleClick} className="element__image" src={card.link} alt={`${card.name}`} />
             <h2 className="element__title">{card.name}</h2>
             <div className="element__like">
                 <button className={cardLikeButtonClassName} type="button" onClick={handleLikeClick} />
